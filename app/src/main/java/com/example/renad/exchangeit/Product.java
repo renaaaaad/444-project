@@ -4,7 +4,7 @@ public class Product {
 
 
 
-    private String name , discription , category   ;
+    private String name , discription , category  ,path ;
 
 
 
@@ -12,10 +12,11 @@ public class Product {
 
     }
 
-    public Product( String n ,String d ,String c  ){
+    public Product( String n ,String d ,String c  ,String p){
         name = n;
         discription = d;
         category = c;
+        path = p;
 
     }
 
@@ -43,6 +44,14 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }
 

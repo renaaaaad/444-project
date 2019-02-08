@@ -60,6 +60,7 @@ public class addProduct extends AppCompatActivity {
         private StorageReference mStorageRef;
         private Uri selectedimage;
         String user_id;
+        String path;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +118,8 @@ public class addProduct extends AppCompatActivity {
                     if(selectedimage!=null){
 
 
-                        StorageReference storageReference = mStorageRef.child("images/Users/"+user_id+"/"+p_name+".jpg");
+                        final StorageReference storageReference = mStorageRef.child("images/Users/"+user_id+"/"+p_name+".jpg");
+                        path = storageReference.getPath();
                         storageReference.putFile(selectedimage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -130,6 +132,8 @@ public class addProduct extends AppCompatActivity {
                         image_error.findFocus();
                         return;
                     }
+
+
                     if(productdiscription.getText().toString().equals("")){
                         productdiscription.setError(" Please Enter Description of the Product ");
                         productdiscription.findFocus();
@@ -137,7 +141,7 @@ public class addProduct extends AppCompatActivity {
                     }
                     String p_des =  productdiscription.getText().toString();
 
-                    Product product= new Product(p_name,p_des,p_cat);
+                    Product product= new Product(p_name,p_des,p_cat,path);
 
                     // to stor the dproduct to the user and the alon (table)
 
@@ -185,7 +189,5 @@ public class addProduct extends AppCompatActivity {
 
 
         }
-    private void showMessage() {
-    }
 
 }

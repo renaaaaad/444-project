@@ -3,11 +3,10 @@
     package="com.example.renad.exchangeit">
 
     <supports-screens
-
         android:largeScreens="true"
         android:normalScreens="true"
         android:smallScreens="true"
-        android:xlargeScreens="true"></supports-screens>
+        android:xlargeScreens="true" />
 
     <application
         android:name=".FireApp"
@@ -17,6 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".searchResult"></activity>
         <activity
             android:name=".loginPage"
             android:exported="true">
@@ -31,7 +31,7 @@
         <activity android:name=".Seartch_Page" />
         <activity android:name=".forgetPasseord" />
         <activity android:name=".sitting" />
-        <activity android:name=".forgot_password"></activity>
+        <activity android:name=".forgot_password" />
         <activity android:name=".addProduct" />
     </application>
 

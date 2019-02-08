@@ -8,7 +8,9 @@ public class User {
     private String city;
 
     private String email;
+public User(){
 
+}
 public User(String i  ,String f,String l,String p, String e ,String c){
     id = i;
     Fname=f;
@@ -60,6 +62,10 @@ public User(String i  ,String f,String l,String p, String e ,String c){
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }// the class
 

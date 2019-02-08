@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment_profile"
+
     android:background="@color/White">
 
     <!-- TODO: Update blank fragment layout -->
@@ -35,25 +36,43 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <SearchView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/edit_text"
-                app:layout_constraintBottom_toTopOf="@+id/text1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.31">
+                android:layout_height="118dp"
+                android:orientation="horizontal">
 
-            </SearchView>
+                <EditText
+                    android:id="@+id/searchwords"
+                    android:layout_width="349dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/edit_text"
+                    android:hint="  search"
+                    app:layout_constraintBottom_toTopOf="@+id/text1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.31">
+
+                </EditText>
+
+                <ImageButton
+                    android:id="@+id/searchButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/common_google_signin_btn_tint"
+                    android:src="@drawable/searchiconbar" />
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/text1"
+                android:id="@+id/cat1Name"
                 android:layout_width="157dp"
                 android:layout_height="26dp"
                 android:layout_marginStart="8dp"
@@ -129,7 +148,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/text4"
+                android:id="@+id/cat2Name"
                 android:layout_width="120dp"
                 android:layout_height="37dp"
                 android:layout_marginStart="8dp"
@@ -205,7 +224,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/text3"
+                android:id="@+id/cat3Name"
                 android:layout_width="113dp"
                 android:layout_height="23dp"
                 android:layout_marginStart="8dp"

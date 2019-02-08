@@ -31,6 +31,22 @@
           }
         },
         {
+          "client_id": "782193102473-du5oo3d4vemsgffs8c547nu2r4bbt5j6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.renad.exchangeit",
+            "certificate_hash": "0e4260e88851f969f47256a5eb9c0beacb433753"
+          }
+        },
+        {
+          "client_id": "782193102473-l8imrb0k5lra3qcpv4gq8j1p44vcisfb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.renad.exchangeit",
+            "certificate_hash": "6bc44b3b923bb775e30485f9b2662f9c6a0a6b2b"
+          }
+        },
+        {
           "client_id": "782193102473-dj5tfjcfnfdibh3uqujg0kc63hqn6gv1.apps.googleusercontent.com",
           "client_type": 3
         }

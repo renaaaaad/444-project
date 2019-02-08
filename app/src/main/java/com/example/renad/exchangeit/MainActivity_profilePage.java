@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,41 +20,67 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity_profilePage extends AppCompatActivity {
-private BottomNavigationView navigation;
-private TextView name_text;
-private DataSnapshot dataSnapshot;
-private DatabaseReference databaseReference;
-private String name;
-private String uid;
+    private BottomNavigationView navigation;
+    private TextView name_text;
+    private String name_from_firebase;
+    private String user_id;
+    private String user_name;
+    //------------------------------------------------ the data base varible
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener authStateListener;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      setContentView(R.layout.activity_main_profile_page);
-name_text = (TextView)findViewById(R.id.name);
+        setContentView(R.layout.activity_main_profile_page);
+        name_text = (TextView)findViewById(R.id.name);
 
-      FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-      FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-uid = firebaseUser.getUid();
-databaseReference = FirebaseDatabase.getInstance().getReference();
-databaseReference.addValueEventListener(new ValueEventListener() {
-    @Override
-    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-name= dataSnapshot.child(uid).child("fname").getValue(String.class);
-    }
+        firebaseAuth= FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        user_id = firebaseUser.getUid();
 
-    @Override
-    public void onCancelled(@NonNull DatabaseError databaseError) {
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                showdata(dataSnapshot);
+            }
 
-    }
-});
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
-        name_text.setText(name);
+
+
+
 
 
         navigation  = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+    }
+
+    private void showdata(DataSnapshot dataSnapshot) {
+
+        for(DataSnapshot ds :dataSnapshot.getChildren()){
+            User user_new = new User();
+            user_new.setFname(ds.child(user_id).getValue(User.class).getFname());
+            user_new.setLname(ds.child(user_id).getValue(User.class).getLname());
+            user_new.setCity(ds.child(user_id).getValue(User.class).getCity());
+            user_new.setFname(ds.child(user_id).getValue(User.class).getFname());
+            user_new.setEmail(ds.child(user_id).getValue(User.class).getEmail());
+            user_new.setPhoneNumber(ds.child(user_id).getValue(User.class).getPhoneNumber());
+            user_new.setId(user_id);
+            name_text.setText(user_new.getFname());
+        }//for part
+
 
     }
 
@@ -69,16 +96,16 @@ name= dataSnapshot.child(uid).child("fname").getValue(String.class);
             switch (item.getItemId()) {
                 case R.id.search:
                     loadFragment(fragment);
-                 return true;
-                 //-------------------------------------------------------------
+                    return true;
+                //-------------------------------------------------------------
                 case R.id.profile:
                     loadFragment(fragment_seartch);
                     return true;
-                 //------------------------------------------------------
+                //------------------------------------------------------
                 case R.id.sitting:
                     loadFragment(fragment_sitting);
                     return true;
-                 //---------------------------------------------------
+                //---------------------------------------------------
                 case R.id.requests:
                     loadFragment(fragment_request);
                     return true;
@@ -117,4 +144,13 @@ name= dataSnapshot.child(uid).child("fname").getValue(String.class);
     }
 
 
+    public void Add(View view) {
+        Intent intent2 = new Intent(getApplicationContext(),addProduct.class);
+        intent2.putExtra("User_Id",user_id);
+        startActivity(intent2);
+    }
+
+    public void AddProduct(View view) {
+        startActivity(new Intent(getApplicationContext(),addProduct.class));
+    }
 }

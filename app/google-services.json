@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "782193102473",
+    "firebase_url": "https://exchangeit-3940a.firebaseio.com",
+    "project_id": "exchangeit-3940a",
+    "storage_bucket": "exchangeit-3940a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782193102473:android:9a6bab14145eb284",
+        "android_client_info": {
+          "package_name": "com.example.renad.exchangeit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "782193102473-1evtgr9eea4cp57j6ip7peit9r6m8ti9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.renad.exchangeit",
+            "certificate_hash": "0233f3e55fd84d361c76f4587f8de28359e1bf09"
+          }
+        },
+        {
+          "client_id": "782193102473-qgchta3vuvrl8f6fmofn83ruecjn74sc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.renad.exchangeit",
+            "certificate_hash": "7e53d55ebdf58f3985db4099eb097c0f37c13374"
+          }
+        },
+        {
+          "client_id": "782193102473-dj5tfjcfnfdibh3uqujg0kc63hqn6gv1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXXBU30qxE08SF19d0Fv0dqXnGAyGetbQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "782193102473-dj5tfjcfnfdibh3uqujg0kc63hqn6gv1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

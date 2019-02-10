@@ -1,6 +1,9 @@
 package com.example.renad.exchangeit;
 
 import android.app.Fragment;
+import com.bumptech.glide.module.AppGlideModule;
+import com.bumptech.glide.annotation.GlideModule;
+
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,7 +12,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.Key;
+import com.bumptech.glide.load.Options;
+import com.bumptech.glide.load.data.DataFetcher;
+import com.bumptech.glide.load.model.ModelLoader;
+import com.bumptech.glide.load.model.ModelLoaderFactory;
+import com.bumptech.glide.load.model.MultiModelLoaderFactory;
+import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,6 +33,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity_profilePage extends AppCompatActivity {
     private BottomNavigationView navigation;
@@ -25,11 +45,13 @@ public class MainActivity_profilePage extends AppCompatActivity {
     private String name_from_firebase;
     private String user_id;
     private String user_name;
+    ImageView test ;
     //------------------------------------------------ the data base varible
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
+    StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
     @Override
 
@@ -42,7 +64,14 @@ public class MainActivity_profilePage extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        test =(ImageView)findViewById(R.id.image_test);
         user_id = firebaseUser.getUid();
+//------------------------------------------------------------------
+
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference("images/Users/"+user_id+"/");
+
+
+
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -78,6 +107,11 @@ public class MainActivity_profilePage extends AppCompatActivity {
             user_new.setEmail(ds.child(user_id).getValue(User.class).getEmail());
             user_new.setPhoneNumber(ds.child(user_id).getValue(User.class).getPhoneNumber());
             user_new.setId(user_id);
+          //  String p = (ds.child(user_id).child("Products").getValue(Product.class).getPath());
+
+
+
+
             name_text.setText(user_new.getFname());
         }//for part
 
@@ -151,6 +185,8 @@ public class MainActivity_profilePage extends AppCompatActivity {
     }
 
     public void AddProduct(View view) {
-        startActivity(new Intent(getApplicationContext(),addProduct.class));
+        Intent intent2 = new Intent(getApplicationContext(),addProduct.class);
+        intent2.putExtra("User_Id",user_id);
+        startActivity(intent2);
     }
 }

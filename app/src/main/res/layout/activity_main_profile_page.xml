@@ -97,6 +97,7 @@
 
                     </TextView>
 
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -134,6 +135,12 @@
                             tools:background="@drawable/bottun_design"
                             tools:textSize="18sp" />
                     </LinearLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"></android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
 

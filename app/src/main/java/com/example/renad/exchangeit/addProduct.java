@@ -18,6 +18,7 @@ import com.example.renad.exchangeit.Product;
 import com.example.renad.exchangeit.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -141,28 +142,23 @@ public class addProduct extends AppCompatActivity {
                             // Continue with the task to get the download URL
                             return storageRef.getDownloadUrl();
                         }
-                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    }).addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
-                        public void onComplete(@NonNull Task<Uri> task) {
-                            if (task.isSuccessful()) {
-                                Uri downloadUri = task.getResult();
-                                path = downloadUri.toString();
-                                Product product= new Product(p_name,p_des,p_cat,path);
+                        public void onSuccess(Uri uri) {
 
-                                // to stor the dproduct to the user and the alon (table)
+                            path = uri.toString();
+                            Product product= new Product(p_name,p_des,p_cat,path);
 
-                                firebaseDatabase.child("Products").child(p_name).setValue(product).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()){
-                                            startActivity( new Intent(getApplicationContext(),MainActivity_profilePage.class));
-                                        }
+                            // to stor the dproduct to the user and the alon (table)
+
+                            firebaseDatabase.child("Products").child(p_name).setValue(product).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()){
+                                        startActivity( new Intent(getApplicationContext(),MainActivity_profilePage.class));
                                     }
-                                });
-                            } else {
-                                // Handle failures
-                                // ...
-                            }
+                                }
+                            });
                         }
                     });
 

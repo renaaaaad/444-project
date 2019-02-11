@@ -7,9 +7,14 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,6 +25,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class MainActivity_profilePage extends AppCompatActivity {
     private BottomNavigationView navigation;
     private TextView name_text , city2;
@@ -27,6 +36,10 @@ public class MainActivity_profilePage extends AppCompatActivity {
     private String user_id;
     private String user_name;
     Button cancel ;
+    private RecyclerView recyclerView ;
+    private myPHotoAdapter myPHotoAdapter ;
+    private List<Product> list_product ;
+
     //------------------------------------------------ the data base varible
   private FirebaseAuth firebaseAuth;
   private FirebaseDatabase firebaseDatabase;
@@ -57,6 +70,17 @@ city2 =        (TextView)findViewById(R.id.city);
                                                                    }
                                                                });
 //String nname = databaseReference.child("Users").child(user_id).child("fname").toString();
+
+recyclerView = (RecyclerView)findViewById(R.id.recycle);
+recyclerView.setHasFixedSize(true);
+LinearLayoutManager linearLayoutManager = new GridLayoutManager(getApplicationContext(),3);
+recyclerView.setLayoutManager(linearLayoutManager);
+list_product = new ArrayList<>();
+myPHotoAdapter = new myPHotoAdapter(getApplicationContext(),list_product);
+recyclerView.setAdapter(myPHotoAdapter);
+
+        myProducts(userid);
+
 
 
                 navigation = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
@@ -154,6 +178,33 @@ cancel.setOnClickListener(new View.OnClickListener() {
         startActivity(intent2);
     }
 
-    public void AddProduct(View view) {
+    public void myProducts (String id ){
+
+
+        DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference("Users");
+        reference2.child(id).child("Products").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot!=null){
+list_product.clear();
+                    for(DataSnapshot ds :dataSnapshot.getChildren()) {
+                        Product product = new Product();
+                        product = dataSnapshot.getValue(Product.class);
+                        list_product.add(product);
+
+                    }//for
+                    Collections.reverse(list_product);
+                    myPHotoAdapter.notifyDataSetChanged();
+                }//if
+                else return;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 }

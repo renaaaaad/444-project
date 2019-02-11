@@ -16,8 +16,7 @@
         jeedah
     </item>
     </string-array>
-    <string-array name="months"
-        >
+    <string-array name="months">
         <item>kitchen</item>
         <item>Bed room</item>
         <item>Living room</item>

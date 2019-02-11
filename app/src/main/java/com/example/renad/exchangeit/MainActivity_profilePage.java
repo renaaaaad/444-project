@@ -1,9 +1,6 @@
 package com.example.renad.exchangeit;
 
 import android.app.Fragment;
-import com.bumptech.glide.module.AppGlideModule;
-import com.bumptech.glide.annotation.GlideModule;
-
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -12,19 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.Key;
-import com.bumptech.glide.load.Options;
-import com.bumptech.glide.load.data.DataFetcher;
-import com.bumptech.glide.load.model.ModelLoader;
-import com.bumptech.glide.load.model.ModelLoaderFactory;
-import com.bumptech.glide.load.model.MultiModelLoaderFactory;
-import com.bumptech.glide.Glide;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,25 +19,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity_profilePage extends AppCompatActivity {
     private BottomNavigationView navigation;
-    private TextView name_text;
+    private TextView name_text , city2;
     private String name_from_firebase;
     private String user_id;
     private String user_name;
-    ImageView test ;
+    Button cancel ;
     //------------------------------------------------ the data base varible
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseAuth.AuthStateListener authStateListener;
-    StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+  private FirebaseAuth firebaseAuth;
+  private FirebaseDatabase firebaseDatabase;
+  private FirebaseAuth.AuthStateListener authStateListener;
+  private DatabaseReference databaseReference;
 
     @Override
 
@@ -59,42 +39,37 @@ public class MainActivity_profilePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_profile_page);
         name_text = (TextView)findViewById(R.id.name);
+city2 =        (TextView)findViewById(R.id.city);
 
-        firebaseAuth= FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        test =(ImageView)findViewById(R.id.image_test);
-        user_id = firebaseUser.getUid();
-//------------------------------------------------------------------
+        FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
+        String userid=user.getUid();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                   @Override
+                                                                   public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                                       name_text.setText(dataSnapshot.child("fname").getValue().toString());
+                                                                       city2.setText(dataSnapshot.child("city").getValue().toString());
+                                                                   }
 
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference("images/Users/"+user_id+"/");
+                                                                   @Override
+                                                                   public void onCancelled(@NonNull DatabaseError databaseError) {
 
-
-
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                showdata(dataSnapshot);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+                                                                   }
+                                                               });
+//String nname = databaseReference.child("Users").child(user_id).child("fname").toString();
 
 
-
-
-
-
-
-        navigation  = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
+                navigation = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
+cancel  = (Button)findViewById(R.id.button6);
+cancel.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        firebaseAuth.getInstance().signOut();
+        startActivity(new Intent(getApplicationContext(),loginPage.class));
     }
+});
+    }//oncreat
 
     private void showdata(DataSnapshot dataSnapshot) {
 
@@ -107,11 +82,6 @@ public class MainActivity_profilePage extends AppCompatActivity {
             user_new.setEmail(ds.child(user_id).getValue(User.class).getEmail());
             user_new.setPhoneNumber(ds.child(user_id).getValue(User.class).getPhoneNumber());
             user_new.setId(user_id);
-          //  String p = (ds.child(user_id).child("Products").getValue(Product.class).getPath());
-
-
-
-
             name_text.setText(user_new.getFname());
         }//for part
 
@@ -185,8 +155,5 @@ public class MainActivity_profilePage extends AppCompatActivity {
     }
 
     public void AddProduct(View view) {
-        Intent intent2 = new Intent(getApplicationContext(),addProduct.class);
-        intent2.putExtra("User_Id",user_id);
-        startActivity(intent2);
     }
 }

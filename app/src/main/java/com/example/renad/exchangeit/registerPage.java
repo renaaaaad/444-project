@@ -62,6 +62,9 @@ public class registerPage extends AppCompatActivity implements View.OnClickListe
         user_data = FirebaseDatabase.getInstance().getReference("Users");
         progressDialog = new ProgressDialog(this);
 
+
+
+
     }//on create
     //-----------------------------------------------------------------------------------------------
     private void registerUser(){
@@ -82,7 +85,9 @@ public class registerPage extends AppCompatActivity implements View.OnClickListe
         String Phone =null;
         final String city = category.getSelectedItem().toString();
 
-        if(!firstName.getText().toString().equals(null)){
+
+
+        if(!firstName.getText().toString().equals("")){
             Fname = firstName.getText().toString();
         }
         else {
@@ -90,7 +95,8 @@ public class registerPage extends AppCompatActivity implements View.OnClickListe
             firstName.requestFocus();
             return;
         }
-        if(!lastName.getText().toString().equals(null)){
+
+        if(!lastName.getText().toString().equals("")){
             Lname=lastName.getText().toString();
         }
         else {
@@ -99,7 +105,8 @@ public class registerPage extends AppCompatActivity implements View.OnClickListe
             return;
 
         }
-        if(!Email.getText().toString().equals(null)){
+
+        if(!Email.getText().toString().equals("")){
             email= Email.getText().toString();
         }
         else {
@@ -107,7 +114,21 @@ public class registerPage extends AppCompatActivity implements View.OnClickListe
             Email.requestFocus();
             return;
         }
-        if( !password.getText().toString().equals(null)){
+
+        if(!phone.getText().toString().equals("")){
+            Phone= phone.getText().toString();
+
+
+
+        }
+        else {
+            phone.setError("Please Enter Your Phone Number  ");
+            phone.requestFocus();
+            return;
+
+        }
+
+        if( !password.getText().toString().equals("")){
             Passowrd= password.getText().toString();
         }
         else {
@@ -116,9 +137,22 @@ public class registerPage extends AppCompatActivity implements View.OnClickListe
             return;
 
         }
-        if( !rePassword.getText().toString().equals(null)){
+
+
+
+        if( password.getText().toString().length()<6){
+            password.setError("Please Your Password Need to Contain 6 Charecters or More ");
+            password.requestFocus();
+            return;
+        }
+
+
+
+        if( !rePassword.getText().toString().equals("")){
             REpassword= password.getText().toString();
-            if(REpassword!=Passowrd){
+
+            if(rePassword.getText().toString().equals(password.getText().toString())){}
+            else {
                 rePassword.setError("Reenter again ");
                 rePassword.requestFocus();
                 return;
@@ -132,22 +166,15 @@ public class registerPage extends AppCompatActivity implements View.OnClickListe
 
         }
 
-        if(!phone.getText().toString().equals(null)){
-            Phone= phone.getText().toString();
 
-            if(Phone.length()<10 || Phone.length()>10){
-                phone.setError("Please Enter Your Phone Number Correctly ");
-                phone.requestFocus();
-                return;
-            }
 
-        }
-        else {
-            phone.setError("Please Enter Your Phone Number  ");
+        if(Phone.length()<10 || Phone.length()>10){
+            phone.setError("Please Enter Your Phone Number Correctly ");
             phone.requestFocus();
             return;
-
         }
+
+
 
         progressDialog.setMessage("Please Wait ....");
         progressDialog.show();
